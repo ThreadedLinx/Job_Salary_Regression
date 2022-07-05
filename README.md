@@ -8,7 +8,7 @@ This Project Is Broken Into 4 Parts:
 4. Visualizing & Reporting Findings
 
 
-1. Collecting Data
+Collecting Data
 The Data is Collected From 'SimplyHired.com' which is an online job board similar to ZipRecruiter, Indeed, and FlexJobs.
 To Collect the Data Im Using Python and Selenium on a Mac (But This Will Also Work On A Windows Operating System)
 Once the Code is Ran, The 'Input' Prompt Will Ask The User For The Desired Position and Which Cities They Are Interested In To Compare
