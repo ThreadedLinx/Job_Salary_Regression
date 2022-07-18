@@ -119,6 +119,55 @@ try:
                 salary_list.append(word)
             print(salary_list)
 
+            sal_min_start = salary_list.index('$') + 1
+            sal_min_end = salary_list.index('K')
+
+            print(sal_min_start)
+            print(sal_min_end)
+
+            sal_min_list = salary_list[sal_min_start:sal_min_end]
+
+            print(sal_min_list)
+
+            string_min_list = ''.join(sal_min_list)
+
+            print(string_min_list)
+            print(type(string_min_list))
+
+            float_min = float(string_min_list)
+            print(float_min)
+            print(type(float_min))
+
+            print('Getting Max')
+
+            sal_max_start = salary_list.index('$', 17) + 1
+            sal_max_end = salary_list.index('K', 17)
+
+            print(sal_max_start)
+            print(sal_max_end)
+
+            sal_max_list = salary_list[sal_max_start:sal_max_end]
+            print(sal_max_list)
+
+            string_max_list = ''.join(sal_max_list)
+            
+            print(string_max_list)
+            print(type(string_max_list))
+
+            float_max = float(string_max_list)
+            print(float_max)
+            print(type(float_max))
+
+            float_median = (float_max + float_min) / 2
+
+            print(float_median)
+
+
+
+
+
+
+
 
         # elif "a year" in salary_test_three.text:
         #     print('Yearly Salary Range String')
