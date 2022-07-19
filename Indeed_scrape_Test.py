@@ -38,45 +38,52 @@ except:
     print('Couldnt Find List Of Jobs')
 
 
-
+#Creating A List of 'Li' Elements Which Is Each Job Listing On This Job Board Website
 try:
     jobs = job_list.find_elements_by_tag_name('li')
     #print(jobs)
 except:
     print('No salary Found')
 
+#Post That Contain these strings have the salary listed
 money_matches = ['an hour', '$', 'a year', 'Estimated']
 
+#List of All Postings that have the salary listed
 job_list_with_salary_listed = []
 
+#For Loop to append each listing that contains salary information to the job_with_salary_listed list
 for job in jobs:
 
     listing = job.text
 
+    #Checking if any strings in the listing contain strings in money matches - signifying the salary is present
     if any(x in listing for x in money_matches):
-
-        #print('This listing has salary listed')
-        #print(listing)
+        #Appending Job Listing That Matches Criteria To job_with_salary_listed list
         job_list_with_salary_listed.append(job)
+        #Checking if Length of List is Growing
         print(len(job_list_with_salary_listed))
 
+
+#These are the class name identifiers for each type of salary listed
 #x - x an hour --- metadata salary-snippet-container
 # Estimated Salary x - x --- metadata estimated-salary-container
 #$xx - $xx -- metadata salary-snippet-container
-
+#Stored each in a lisg
 html_list = ['metadata salary-snippet-container', 'metadata estimated-salary-container', 'metadata salary-snippet-container']
-
 
 try:
 
-    print(job_list_with_salary_listed)
+    #print(job_list_with_salary_listed)
 
+
+    #Checking if Jobs in jobs_list all have a class tag to access the salary data
     for job in job_list_with_salary_listed:
 
-        print('Inner Html For Job ... ')
+        #print('Inner Html For Job ... ')
         get_html = job.get_attribute('innerHTML')
         #print(get_html)
 
+        #If the inner HTML contains any string from the html_list - The Salary Data will be accessible
         if any(x in get_html for x in html_list):
             print('Salary Html Is Present')
         else:
@@ -90,44 +97,47 @@ except:
 #Do a xpath with class and contains 'Salary' as text
 #*//div[contains(@class,'salary')]
 
-salary_section = []
 
+#salary_section = []
+
+#List of Job Objects That Contains Position, Company, Location, and Salary
 job_postings = []
 
-
-
+#Try Block - Getting all relevant data and storing it in a job dictionary then appending it to the job postings list
 try:
-    print('Getting By Xpath Contains Text .... ')
+    #print('Getting By Xpath Contains Text .... ')
 
-    salary_test_one = WebDriverWait(job_list_with_salary_listed[2], 5).until(
-        EC.presence_of_element_located((By.XPATH, "*//div[contains(@class,'salary')]"))
-    )
-    print('Salary Retreived')
-
-    print(salary_test_one.text)
+    #This Was A Check To See How To Access The Salary Information
+    # salary_test_one = WebDriverWait(job_list_with_salary_listed[2], 5).until(
+    #     EC.presence_of_element_located((By.XPATH, "*//div[contains(@class,'salary')]"))
+    # )
 
     for salary in job_list_with_salary_listed:
 
         #Job Title
         job_title = salary.find_element(By.CLASS_NAME, "jobTitle")
-        # //*[@span="title"]
-        #"*//div[@class='attribute_snippet']"
         print(job_title.text)
 
+        #Company Name
         company_name = salary.find_element(By.CLASS_NAME, "companyName")
         print(company_name.text)
 
+        #Location - Returned From HTML : Will Be From User Input By Their Search C
         location = salary.find_element(By.CLASS_NAME, "companyLocation")
         print(location.text)
 
+        #Float Value for Salary 
         salary_float = 0.0
 
+        #Accessing The Target Elements For Salary Information
         salary_test_three = salary_string = WebDriverWait(salary, 5).until(
         EC.presence_of_element_located((By.XPATH, "*//div[@class='metadata salary-snippet-container' or @class='metadata estimated-salary-container']"))
         )
 
+        #Holds The List of Salary String For Each Position - Emptied Everytime it Loops
         salary_list = []
 
+        #If Salary Info is a Yearly Estimate
         if "Estimated" in salary_test_three.text and "a year" in salary_test_three.text:
             print('Estimated Yearly String')
             print(salary_test_three.text)
@@ -189,6 +199,7 @@ try:
             print(float_mean)
             salary_float = float_mean
 
+        #If Salary info is Yearly and Not Estimated
         elif "Estimated" not in salary_test_three.text and "a year" in salary_test_three.text:
 
             print('This Is A Year String Only')
@@ -257,6 +268,7 @@ try:
             print(float_yearly_mean)
             salary_float = float_yearly_mean 
 
+        #If Salary Info is Hourly
         else:
             print(salary_test_three.text)
             print('Should Be By The Hour')
@@ -325,8 +337,7 @@ try:
 
 
 
-        #Creating Dictionary 
-
+        #Creating Dictionary of Job with All Relevant Data
         job_object = {
             'position': job_title.text,
             'company': company_name.text,
