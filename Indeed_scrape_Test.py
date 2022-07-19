@@ -103,8 +103,6 @@ try:
         EC.presence_of_element_located((By.XPATH, "*//div[contains(@class,'salary')]"))
     )
     print('Salary Retreived')
-    
-    #//input[@value = 'Log In' or @type = 'submit']
 
     print(salary_test_one.text)
 
@@ -339,59 +337,6 @@ try:
         job_postings.append(job_object)
 
 
-
-
-
-
-
-
-
-
-
-
-
-        # elif "a year" in salary_test_three.text:
-        #     print('Yearly Salary Range String')
-        # elif 'an hour' in salary_test_three.text:
-        #     print('Hourly Salary String')
-
-        #print(salary_test_three.text)
-
-    #     salary_test_two = WebDriverWait(job, 5).until(
-    #     EC.presence_of_element_located((By.XPATH, "*//div[contains(@class,'salary')]"))
-    # )
-    #     print(salary_test_two.text)
-    #     salary_section.append(salary_test_two)
-    #     print('Success, Element Appended')
-
-
-    # print(len(salary_section))
-    # print(salary_section[0].text)
-
-
-    # for salary in salary_section:
-
-    #     salary_string = WebDriverWait(salary, 5).until(
-    #     EC.presence_of_element_located((By.XPATH, "*//div[@class='attribute_snippet']"))
-    # )
-
-    #     print(salary_string.text)
-    #     #print('Working Fine ... ')
-
-
-
-# estimated-salary
-# attribute_snippet
-
-    #print(job_list_with_salary_listed[0].text)
-
-    # for x in job_list_with_salary_listed:
-
-    #     salary_in_html = x.find_element_by_xpath("*//div[contains(@class,'salary')]")
-
-    #     print(salary_in_html.text)
-
-
 except:
     print('Xpath Text Contains Failed')
 
@@ -399,44 +344,4 @@ except:
 #Putting Job Postings List Into Data Frame
 df = pd.DataFrame(job_postings)
 print(df)
-
-
-
-#an hour
-#$
-#a year
-#Estimated
-
-# try:
-#     salary = jobs[0].find_element_by_class_name('metadata salary-snippet-container')
-
-#     print('Salary Found')
-
-# except NoSuchElementException:
-#     print('Element Doesnt Exist')
-
-
-
-# for job in jobs:
-
-#     if job.find_element_by_class_name('metadata salary-snippet-container') == True:
-#         continue
-
-
-#     print(job.find_element_by_class_name('metadata salary-snippet-container').text)
-
-
-
-
-
-#metadata salary-snippet-container
-
-
-# for job in job_list:
-
-
-#     if job.find_element_by_class_name('metadata salary-snippet-container') == True:
-#         continue
-
-#         print(job.find_element_by_class_name('metadata salary-snippet-container').text)
 
