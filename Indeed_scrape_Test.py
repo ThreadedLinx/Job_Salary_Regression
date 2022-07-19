@@ -92,6 +92,10 @@ except:
 
 salary_section = []
 
+job_postings = []
+
+
+
 try:
     print('Getting By Xpath Contains Text .... ')
 
@@ -117,6 +121,8 @@ try:
 
         location = salary.find_element(By.CLASS_NAME, "companyLocation")
         print(location.text)
+
+        salary_float = 0.0
 
         salary_test_three = salary_string = WebDriverWait(salary, 5).until(
         EC.presence_of_element_located((By.XPATH, "*//div[@class='metadata salary-snippet-container' or @class='metadata estimated-salary-container']"))
@@ -183,6 +189,7 @@ try:
             float_mean = (float_max + float_min) / 2
 
             print(float_mean)
+            salary_float = float_mean
 
         elif "Estimated" not in salary_test_three.text and "a year" in salary_test_three.text:
 
@@ -247,9 +254,10 @@ try:
             print(type(float_yearly_max))
 
             #Getting Mean of Salary Range
-            float_yearly_mean = (float_yearly_min + float_yearly_max) / 2
+            float_yearly_mean = ((float_yearly_min + float_yearly_max) / 2) / 1000
 
             print(float_yearly_mean)
+            salary_float = float_yearly_mean 
 
         else:
             print(salary_test_three.text)
@@ -311,10 +319,24 @@ try:
             print(float_hourly_mean)
 
             #Converting Hourly Mean To Yearly Salary
-            float_hourly_mean_converted_to_yearly = float_hourly_mean * 40 * 52
+            float_hourly_mean_converted_to_yearly = (float_hourly_mean * 40 * 52) / 1000
 
             print(float_hourly_mean_converted_to_yearly)
 
+            salary_float = float_hourly_mean_converted_to_yearly
+
+
+
+        #Creating Dictionary 
+
+        job_object = {
+            'position': job_title.text,
+            'company': company_name.text,
+            'location': location.text,
+            'salary': salary_float
+        }
+
+        job_postings.append(job_object)
 
 
 
@@ -372,6 +394,12 @@ try:
 
 except:
     print('Xpath Text Contains Failed')
+
+
+#Putting Job Postings List Into Data Frame
+df = pd.DataFrame(job_postings)
+print(df)
+
 
 
 #an hour
