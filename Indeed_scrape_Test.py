@@ -21,8 +21,7 @@ driver = webdriver.Chrome(PATH)
 driver.maximize_window()
 
 #Going To Website
-driver.get("https://www.indeed.com/jobs?q=ios%20developer&l=Los%20Angeles")
-
+#driver.get("https://www.indeed.com/jobs?q=ios%20developer&l=Los%20Angeles")
 
 #Variables
 
@@ -414,19 +413,76 @@ def next_page():
     except:
         print('This Was The Final Page')
 
-#Setting Pages Variable To Returned list Of Page Link Web Elements
-pages = get_pages()
+#Go To Search With Designated Search Criteria - Location and Position
+def go(city_to_search):
+    try:
+        driver.get("https://www.indeed.com/jobs?q=" + job_position + "&l=" + city_to_search)
+    except:
+        print('Getting Webpage for the ' + job_position + ' in ' + city_to_search + ' was unsuccessful')
 
-for page in pages:
+#Scrape
+def scrape():
+    for page in pages:
 
-    #List of All Postings that have the salary listed - Emptied Every Loop
-    job_list_with_salary_listed = []
+        #List of All Postings that have the salary listed - Emptied Every Loop
+        job_list_with_salary_listed = []
 
-    time.sleep(2)
-    get_data()
-    time.sleep(2)
-    next_page()
-    avoid_pop_up()
+        time.sleep(2)
+        get_data()
+        time.sleep(2)
+        next_page()
+        avoid_pop_up()
+
+#City and Position Input Prompt - Removing Any Whitespace - Replacing Any Spaces With %20
+city_one = input('What The First City Would You Like To Search? ').strip().replace(' ', '%20')
+city_two = input('What The Second City Would You Like To Search? ').strip().replace(' ', '%20')
+city_three = input('What The Third City Would You Like To Search? ').strip().replace(' ', '%20')
+job_position = input('What Position Are You Interested In? ').strip().replace(' ', '%20')
+
+#Making City List From Input
+city_list = [city_one, city_two, city_three]
+
+print(city_list)
+print(len(city_list))
+
+print(job_position)
+print(len(job_position))
+
+#search_string = "https://www.indeed.com/jobs?q=" + job_position + "&l=" + city
+#print(search_string)
+
+#driver.get("https://www.indeed.com/jobs?q=" + job_position + "&l=" + city)
+
+#Maximize Window
+driver.maximize_window()
+
+#Loop Through Cities and Get Data For The Desired Position
+for city in city_list:
+    print('Searching for the ' + job_position + 'in ' + city + ' . . .')
+
+    time.sleep(3)
+    #Going To Search Url
+    go(city)
+    #Setting Pages Variable To Returned list Of Page Link Web Elements
+    pages = get_pages()
+    print('Search Succesful')
+    print("\n")
+    print('Now Scraping Data For The ' + job_position + ' in' + city + ' . . .')
+    #Scraping
+    scrape()
+
+
+
+# for page in pages:
+
+#     #List of All Postings that have the salary listed - Emptied Every Loop
+#     job_list_with_salary_listed = []
+
+#     time.sleep(2)
+#     get_data()
+#     time.sleep(2)
+#     next_page()
+#     avoid_pop_up()
 
 
 #Putting Job Postings List Into Data Frame
