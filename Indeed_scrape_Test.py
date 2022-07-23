@@ -8,12 +8,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
 
 import time
 import pandas as pd
 
 #Path Name Of Chrome Driver
 PATH = "/Users/nay/Desktop/Development/Drivers/chromedriver"
+
 
 #Selecting The webdriver / broswer 
 
@@ -307,6 +309,38 @@ def get_job_info():
             salary_float = float_monthly_to_year / 1000
 
 
+        elif 'day' in salary_test_three.text:
+            print('Daily Wage')
+
+            for word in salary_test_three.text:
+                salary_list.append(word)
+            print(salary_list)
+
+            #Index of $ + 1 and 'a' This Is Where Target Numbers Lie
+            day_start = salary_list.index('$') + 1
+            day_end = salary_list.index('a') - 1
+
+            print(day_start)
+            print(day_end)
+
+            #Slicing At Target Indeces
+            day_list = salary_list[day_start:day_end]
+            print(day_list)
+
+            #Joining Numbers Into A String
+            string_daily_wage = ''.join(day_list)
+            print(string_daily_wage)
+            print(type(string_daily_wage))
+
+            #Turning String Into Float
+            float_daily_wage = float(string_daily_wage)
+            print(float_daily_wage)
+            print(type(float_daily_wage))
+
+            #Converting Daily Wage Into Yearly
+            salary_float = (float_daily_wage * 235) / 1000
+
+
         #If Salary Info is Hourly
         else:
             print(salary_test_three.text)
@@ -316,63 +350,87 @@ def get_job_info():
                 salary_list.append(word)
             print(salary_list)
 
-            #Index of $ + 1 and '-' minus 1
-            hourly_min_start = salary_list.index('$') + 1
-            hourly_min_end = salary_list.index('-') - 1
-            print(hourly_min_start)
-            print(hourly_min_end)
+            #If Hourly Rate is Fixed Number And Not Range
+            if '-' not in salary_list:
+                print('Hourly Fixed Salary')
+                hourly_fixed_start = salary_list.index('$') + 1
+                hourly_fixed_end = salary_list.index(' ')
 
-            #Slicing Target Number Using Specifc Index of $ + 1 and '-' Minus 1
-            hourly_salary_min_list = salary_list[hourly_min_start:hourly_min_end]
-            print(hourly_salary_min_list)
+                print(hourly_fixed_start, hourly_fixed_end)
 
-            #Joining Numbers Into A String
-            hourly_sal_min_string = ''.join(hourly_salary_min_list)
+                #Slicing At Target
+                hourly_fixed_list = salary_list[hourly_fixed_start:hourly_fixed_end]
+                print(hourly_fixed_list)
 
-            print(hourly_sal_min_string)
-            print(type(hourly_sal_min_string))
+                string_hourly_fixed = ''.join(hourly_fixed_list)
+                print(string_hourly_fixed)
+                print(type(string_hourly_fixed))
 
-            #Turning Min Salary String Into A Float
-            float_hourly_min = float(hourly_sal_min_string)
+                #Turning TO Float
+                float_hourly_fixed = float(string_hourly_fixed)
+                print(float_hourly_fixed)
+                print(type(float_hourly_fixed))
 
-            print(float_hourly_min)
-            print(type(float_hourly_min))
+                salary_float = (float_hourly_fixed * 2080) / 1000
+            else:
+                #Here
+                #Index of $ + 1 and '-' minus 1
+                hourly_min_start = salary_list.index('$') + 1
+                hourly_min_end = salary_list.index('-') - 1
+                print(hourly_min_start)
+                print(hourly_min_end)
 
-            #Getting Max Hourly Value
-            print('Now Getting Hourly Max Value')
+                #Slicing Target Number Using Specifc Index of $ + 1 and '-' Minus 1
+                hourly_salary_min_list = salary_list[hourly_min_start:hourly_min_end]
+                print(hourly_salary_min_list)
 
-            #Index Of $ + 1 and 'a' minus 1 Starting At Specific Index Because Tagret Numbers Lie In between these Characters - Second Number In Sequence
-            hourly_max_start = salary_list.index('$', 4) + 1
-            hourly_max_end = salary_list.index('a', 4) - 1
-            
-            print(hourly_max_start)
-            print(hourly_max_end)
+                #Joining Numbers Into A String
+                hourly_sal_min_string = ''.join(hourly_salary_min_list)
 
-            #Slicing Target Number Using Specifc Index Of $ + 1 and 'a' minus 1
-            hourly_sal_max_list = salary_list[hourly_max_start:hourly_max_end]
-            print(hourly_sal_max_list)
+                print(hourly_sal_min_string)
+                print(type(hourly_sal_min_string))
 
-            #Joing Max Number Into A String
-            hourly_sal_max_string = ''.join(hourly_sal_max_list)
+                #Turning Min Salary String Into A Float
+                float_hourly_min = float(hourly_sal_min_string)
 
-            print(hourly_sal_max_string)
-            print(type(hourly_sal_max_string))
+                print(float_hourly_min)
+                print(type(float_hourly_min))
 
-            #Turning Max Hourly Salary String Into A Float
-            float_hourly_max = float(hourly_sal_max_string)
-            print(float_hourly_max)
-            print(type(float_hourly_max))
+                #Getting Max Hourly Value
+                print('Now Getting Hourly Max Value')
 
-            #Getting Mean of Hourly Salary Range
-            float_hourly_mean = (float_hourly_min + float_hourly_max) / 2
-            print(float_hourly_mean)
+                #Index Of $ + 1 and 'a' minus 1 Starting At Specific Index Because Tagret Numbers Lie In between these Characters - Second Number In Sequence
+                hourly_max_start = salary_list.index('$', 4) + 1
+                hourly_max_end = salary_list.index('a', 4) - 1
+                
+                print(hourly_max_start)
+                print(hourly_max_end)
 
-            #Converting Hourly Mean To Yearly Salary
-            float_hourly_mean_converted_to_yearly = (float_hourly_mean * 40 * 52) / 1000
+                #Slicing Target Number Using Specifc Index Of $ + 1 and 'a' minus 1
+                hourly_sal_max_list = salary_list[hourly_max_start:hourly_max_end]
+                print(hourly_sal_max_list)
 
-            print(float_hourly_mean_converted_to_yearly)
+                #Joing Max Number Into A String
+                hourly_sal_max_string = ''.join(hourly_sal_max_list)
 
-            salary_float = float_hourly_mean_converted_to_yearly
+                print(hourly_sal_max_string)
+                print(type(hourly_sal_max_string))
+
+                #Turning Max Hourly Salary String Into A Float
+                float_hourly_max = float(hourly_sal_max_string)
+                print(float_hourly_max)
+                print(type(float_hourly_max))
+
+                #Getting Mean of Hourly Salary Range
+                float_hourly_mean = (float_hourly_min + float_hourly_max) / 2
+                print(float_hourly_mean)
+
+                #Converting Hourly Mean To Yearly Salary
+                float_hourly_mean_converted_to_yearly = (float_hourly_mean * 40 * 52) / 1000
+
+                print(float_hourly_mean_converted_to_yearly)
+
+                salary_float = float_hourly_mean_converted_to_yearly
 
 
 
@@ -464,28 +522,83 @@ def get_data():
 def avoid_pop_up():
     #Closing Popups If They Exist
     try:
-        #Locating 'x' symbol on pop window
+
+        time.sleep(3)
+
+        # activate_button = WebDriverWait(driver, 7).until(
+        #     EC.presence_of_element_located((By.ID, "popover-button"))
+        # )
+
+        # #Locating 'x' symbol on pop window
+        # popup_window = WebDriverWait(driver, 7).until(
+        #     EC.presence_of_element_located((By.XPATH, "//button[@class='popover-x-button-close icl-CloseButton']"))
+        # )
+
+        # activate_button = WebDriverWait(driver, 7).until(
+        #     EC.presence_of_element_located((By.ID, "popover-button"))
+        # )
+
+        # print('Printing Pop Up Elements')
+        # time.sleep(2)
+        # print(activate_button)
+        # print(activate_button)
+        # print('Pop Up Appeared')
+
+        # print('Closing Pop Up With Action Chain')
+
+        # popup_window.click()
+        
+
+        # #Moving Mouse
+        # #Create action chain object
+        # action = ActionChains(driver)
+        # #Moving Mouse Away From Pop Up
+        # action.move_to_element(popup_window)
+        # action.click(popup_window)
+        # action.move_to_element_with_offset(popup_window, 40, 50)
+        # print('Moiving Mouse?')
+        # action.click()
+        # action.perform()
+
+        # print('Pop Up Window Closed')
+
+        print('Detecting Pop Up . . .')
+
+        #time.sleep(7)
+
+        print(driver.current_window_handle)
+        print(driver.window_handles)
+
+
         popup_window = WebDriverWait(driver, 7).until(
-            EC.presence_of_element_located((By.XPATH, "//button[@class='popover-x-button-close icl-CloseButton']"))
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="popover-x"]/button'))
         )
-        print('Pop Up Appeared')
 
-        print('Closing Pop Up With Action Chain')
+        print(popup_window)
+        print('closing pop up window')
+        popup_window.click()
+        print('pop up closed')
+        driver.refresh()
 
-        #Moving Mouse
-        #Create action chain object
-        action = ActionChains(driver)
-        #Moving Mouse Away From Pop Up
-        action.move_to_element(popup_window)
-        action.click(popup_window)
-        action.move_to_element_with_offset(popup_window, 40, 50)
-        action.click()
-        action.perform()
 
-        print('Pop Up Window Closed')
+
+        if len(driver.window_handles) > 1:
+            print('Pop Detected . . . Switching To Window')
+            driver.switch_to.window(driver.window_handles[1])
+            print('Checking To See If Switch Worked')
+            print(driver.current_window_handle)
+            print('Closing Pop Window')
+            driver.close()
+            print('Switching Back To Main Window')
+            driver.switch_to.window(driver.window_handles[0])
+            print('Peacefully Resume Scrape')
+
+
+        
 
     except:
         print('No Pop Up, Continue Scraping')
+        #driver.quit()
 
 
 #Get Page Link (i.e. "1", "2", "3", "4") Elements In Global Scope for pages variable
@@ -541,6 +654,7 @@ job_position = input('What Position Are You Interested In? ').strip().replace(' 
 
 #Going TO Desired Page (City and Job)
 go(city, job_position)
+print(driver.current_window_handle)
 
 
 #Setting Pages Variable To Returned list Of Page Link Web Elements
