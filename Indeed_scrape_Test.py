@@ -21,7 +21,7 @@ driver = webdriver.Chrome(PATH)
 driver.maximize_window()
 
 #Going To Website
-driver.get("https://www.indeed.com/jobs?q=ios%20developer&l=Los%20Angeles")
+#driver.get("https://www.indeed.com/jobs?q=ios%20developer&l=Los%20Angeles")
 
 
 #Variables
@@ -126,9 +126,48 @@ def get_job_info():
 
             print(float_mean)
             salary_float = float_mean
+        
+        #If salary is "From" a certain value use that for the float
+        elif "From" in salary_test_three.text or "Up" in salary_test_three.text:
+            print('This Is A From String')
+            print(salary_test_three.text)
+
+            for word in salary_test_three.text:
+                salary_list.append(word)
+            print(salary_list)
+
+            #Index of $ +1 and 'a' - 1 Because Tagret Numbers Lie In between these Characters - First Number In Sequence
+            from_salary_start = salary_list.index('$') + 1
+            from_salary_end = salary_list.index('a') - 1
+
+            print(from_salary_start)
+            print(from_salary_end)
+
+            #Slicing Target Number from $ and 'a' - 1
+            from_salary_list = salary_list[from_salary_start:from_salary_end]
+            print(from_salary_list)
+
+            #Removing Comma
+            from_salary_list.remove(',')
+            print(from_salary_list)
+
+            #Joing From String Into A List
+            string_from_salary = ''.join(from_salary_list)
+
+            print(string_from_salary)
+            print(type(string_from_salary))
+
+            #Turning From Salary Into Float
+            float_from_salary = float(string_from_salary)
+            print(float_from_salary)
+            print(type(float_from_salary))
+
+            salary_float = float_from_salary / 1000
+
 
         #If Salary info is Yearly and Not Estimated
         elif "Estimated" not in salary_test_three.text and "a year" in salary_test_three.text:
+
 
             print('This Is A Year String Only')
             print(salary_test_three.text)
@@ -163,38 +202,110 @@ def get_job_info():
             print(float_yearly_min)
             print(type(float_yearly_min))
 
+            if len(salary_list) == 15 or len(salary_list) == 14:
+                print('Single Value For Yearly Salary.  Use This For Salary Float')
+                float_yearly = float_yearly_min / 1000
+                print(float_yearly)
+                salary_float = float_yearly
+            else:
+                print('Yearly Value Has Min and Max')
 
-            print('Now Getting Max Value ...')
-            #Index of $ +1 and *Space* Starting At Specific Index Because Tagret Numbers Lie In between these Characters - Second Number In Sequence
-            yearly_max_start = salary_list.index('$', 9) + 1
-            yearly_max_end = salary_list.index('a', 9) - 1
+                print('Now Getting Max Value ...')
+                #Index of $ +1 and *Space* Starting At Specific Index Because Tagret Numbers Lie In between these Characters - Second Number In Sequence
+                yearly_max_start = salary_list.index('$', 9) + 1
+                yearly_max_end = salary_list.index('a', 9) - 1
 
-            print(yearly_max_start)
-            print(yearly_max_end)
+                print(yearly_max_start)
+                print(yearly_max_end)
 
-            #Slicing Target Number Using Specific Index of $ + 1 and 'a' - 1
-            year_sal_max_list = salary_list[yearly_max_start:yearly_max_end]
-            print(year_sal_max_list)
+                #Slicing Target Number Using Specific Index of $ + 1 and 'a' - 1
+                year_sal_max_list = salary_list[yearly_max_start:yearly_max_end]
+                print(year_sal_max_list)
+
+                #Removing Comma
+                year_sal_max_list.remove(',')
+
+                #Joining Max Numbers Into A String
+                string_year_max = ''.join(year_sal_max_list)
+
+                print(string_year_max)
+                print(type(string_year_max))
+
+                #Turning Maximum Salary String Into A Float
+                float_yearly_max = float(string_year_max)
+                print(float_yearly_max)
+                print(type(float_yearly_max))
+
+                #Getting Mean of Salary Range
+                float_yearly_mean = ((float_yearly_min + float_yearly_max) / 2) / 1000
+
+                print(float_yearly_mean)
+                salary_float = float_yearly_mean
+                print('salary float set to yearly mean sucessfully')
+       
+        #Monthly Salary
+        elif "month" in salary_test_three.text:
+            print('This Is A Monthly Salary')
+
+            for word in salary_test_three.text:
+                salary_list.append(word)
+            print(salary_list)
+
+            #Index of $ + 1 and '-' This Is Where Target Numbers Lie
+            month_min_start = salary_list.index('$') + 1
+            month_min_end = salary_list.index('-') - 1
+
+            print(month_min_start)
+            print(month_min_end)
+
+            #Slicing Target Number Using Specifc Index of $ + 1 and '-'
+            month_min_list = salary_list[month_min_start:month_min_end]
+            print(month_min_list)
 
             #Removing Comma
-            year_sal_max_list.remove(',')
+            month_min_list.remove(',')
+            print(month_min_list)
 
-            #Joining Max Numbers Into A String
-            string_year_max = ''.join(year_sal_max_list)
+            #Joining Min Numbers Into A String
+            string_monthly_min = ''.join(month_min_list)
+            print(string_monthly_min)
+            print(type(string_monthly_min))
 
-            print(string_year_max)
-            print(type(string_year_max))
+            #Turning String Into Float
+            float_monthly_min = float(string_monthly_min)
+            print(float_monthly_min)
+            print(type(float_monthly_min))
 
-            #Turning Maximum Salary String Into A Float
-            float_yearly_max = float(string_year_max)
-            print(float_yearly_max)
-            print(type(float_yearly_max))
+            print('Getting Monthly Max ....')
 
-            #Getting Mean of Salary Range
-            float_yearly_mean = ((float_yearly_min + float_yearly_max) / 2) / 1000
+            #Index of $ + 1 Starting after index 0 and index of 'a' - 1
+            month_max_start = salary_list.index('$', 3) + 1
+            month_max_end = salary_list.index('a') - 1
 
-            print(float_yearly_mean)
-            salary_float = float_yearly_mean 
+            #Slicing Target Number From Specific Indeces
+            month_max_list = salary_list[month_max_start:month_max_end]
+            print(month_max_list)
+
+            #Removing Comma
+            month_max_list.remove(',')
+            print(month_max_list)
+
+            #Joining Into String From List
+            string_monthly_max = ''.join(month_max_list)
+            print(string_monthly_max)
+            print(type(string_monthly_max))
+
+            #Turning Monthly Max Into Float
+            float_monthly_max = float(string_monthly_max)
+            print(float_monthly_max)
+            print(type(float_monthly_max))
+
+            #Average Of Monthly Range and Convert Into Yearly Wage
+            float_monthly_average = (float_monthly_min + float_monthly_max) / 2
+            float_monthly_to_year = float_monthly_average * 12
+
+            salary_float = float_monthly_to_year / 1000
+
 
         #If Salary Info is Hourly
         else:
@@ -413,6 +524,24 @@ def next_page():
 
     except:
         print('This Was The Final Page')
+
+
+def go(desired_city, desired_job):
+    print('Going to ' + desired_job + ' in ' + desired_city)
+
+    try:
+        driver.get("https://www.indeed.com/jobs?q=" + desired_job + "&l=" + desired_city)
+    except:
+        print('Getting Webpage for the ' + job_position + ' in ' + desired_city + ' was unsuccessful')
+
+#Making City and Job Input Dynamic
+city = input('What The First City Would You Like To Search? ').strip().replace(' ', '%20')
+job_position = input('What Position Are You Interested In? ').strip().replace(' ', '%20')
+
+
+#Going TO Desired Page (City and Job)
+go(city, job_position)
+
 
 #Setting Pages Variable To Returned list Of Page Link Web Elements
 pages = get_pages()
