@@ -129,6 +129,35 @@ def get_job_info():
             print(float_mean)
             salary_float = float_mean
         
+        
+        elif "Up" in salary_test_three.text and "hour" in salary_test_three.text:
+            print('Up To Hourly Salary')
+            print(salary_test_three.text)
+
+            for word in salary_test_three.text:
+                salary_list.append(word)
+            print(salary_list)
+
+            upto_hourly_start = salary_list.index('$') + 1
+            upto_hourly_end = salary_list.index('a') - 1
+            print(upto_hourly_start, upto_hourly_end)
+            
+            #Slicing
+            upto_hourly_list = salary_list[upto_hourly_start:upto_hourly_end]
+            print(upto_hourly_list)
+
+            #Join To String
+            string_upto_hourly = ''.join(upto_hourly_list)
+            print(string_upto_hourly)
+            print(type(string_upto_hourly))
+
+            #Turning Into Float
+            float_upto_hourly = float(string_upto_hourly)
+            print(float_upto_hourly)
+            print(type(float_upto_hourly))
+
+            salary_float = (float_upto_hourly * 2080) / 1000
+        
         #If salary is "From" a certain value use that for the float
         elif "From" in salary_test_three.text or "Up" in salary_test_three.text:
             print('This Is A From String')
@@ -372,6 +401,7 @@ def get_job_info():
                 print(type(float_hourly_fixed))
 
                 salary_float = (float_hourly_fixed * 2080) / 1000
+
             else:
                 #Here
                 #Index of $ + 1 and '-' minus 1
