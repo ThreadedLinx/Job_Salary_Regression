@@ -669,6 +669,24 @@ def next_page():
         print('This Was The Final Page')
 
 
+#Scrape - This Functionality Is To Get All Data Necessary From A City
+# def scrape():
+#     #Setting Pages Variable To Returned list Of Page Link Web Elements
+#     pages = get_pages()
+
+#     for page in pages:
+
+#         #List of All Postings that have the salary listed - Emptied Every Loop
+#         job_list_with_salary_listed = []
+
+#         time.sleep(2)
+#         get_data()
+#         time.sleep(2)
+#         next_page()
+#         avoid_pop_up()
+
+
+
 def go(desired_city, desired_job):
     print('Going to ' + desired_job + ' in ' + desired_city)
 
@@ -678,28 +696,63 @@ def go(desired_city, desired_job):
         print('Getting Webpage for the ' + job_position + ' in ' + desired_city + ' was unsuccessful')
 
 #Making City and Job Input Dynamic
-city = input('What The First City Would You Like To Search? ').strip().replace(' ', '%20')
+city_one = input('What The First City Would You Like To Search? ').strip().replace(' ', '%20')
+city_two = input('What The Second City Would You Like To Search? ').strip().replace(' ', '%20')
+city_three = input('What The Third City Would You Like To Search? ').strip().replace(' ', '%20')
 job_position = input('What Position Are You Interested In? ').strip().replace(' ', '%20')
 
+#List Of Cities
+city_list = [city_one, city_two, city_three]
 
 #Going TO Desired Page (City and Job)
-go(city, job_position)
-print(driver.current_window_handle)
+#go(city, job_position)
+#print(driver.current_window_handle)
+
+
+#Testing Scrape Function
+# scrape()
+
+#For Loop Going Through Cities Input By User
+for city in city_list:
+
+    #Go To Specific Search - City and Job Position
+    go(city, job_position)
+    
+    #Setting Pages Variable To Returned list Of Page Link Web Elements
+    pages = get_pages()
+
+    #Loop Through Pages Returned From The get_pages() Function
+    for page in pages:
+
+        #List of All Postings that have the salary listed - Emptied Every Loop
+        job_list_with_salary_listed = []
+
+        time.sleep(2)
+        #Get Job and Salary Info
+        get_data()
+        time.sleep(2)
+        #Go To Next Page
+        next_page()
+        #Avoid Modal PopUp Window
+        avoid_pop_up()
+
+
+
 
 
 #Setting Pages Variable To Returned list Of Page Link Web Elements
-pages = get_pages()
+# pages = get_pages()
 
-for page in pages:
+# for page in pages:
 
-    #List of All Postings that have the salary listed - Emptied Every Loop
-    job_list_with_salary_listed = []
+#     #List of All Postings that have the salary listed - Emptied Every Loop
+#     job_list_with_salary_listed = []
 
-    time.sleep(2)
-    get_data()
-    time.sleep(2)
-    next_page()
-    avoid_pop_up()
+#     time.sleep(2)
+#     get_data()
+#     time.sleep(2)
+#     next_page()
+#     avoid_pop_up()
 
 
 #Putting Job Postings List Into Data Frame
