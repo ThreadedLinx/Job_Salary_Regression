@@ -37,6 +37,10 @@ money_matches = ['an hour', '$', 'a year', 'Estimated']
 #List of Job Objects That Contains Position, Company, Location, and Salary
 job_postings = []
 
+#Consistency Of Data Variables For Pandas Data Frame
+searched_city = ''
+searched_job = ''
+
 #Functions
 
 #This Function Grabs The Necessary Data From Each Job Listing: Position, Company Name, Location, and Salary
@@ -467,8 +471,10 @@ def get_job_info():
         #Creating Dictionary of Job with All Relevant Data
         job_object = {
             'position': job_title.text,
+            'input Position': searched_job,
             'company': company_name.text,
             'location': location.text,
+            'input City': searched_city,
             'salary': salary_float
         }
 
@@ -555,49 +561,7 @@ def avoid_pop_up():
 
         time.sleep(3)
 
-        # activate_button = WebDriverWait(driver, 7).until(
-        #     EC.presence_of_element_located((By.ID, "popover-button"))
-        # )
-
-        # #Locating 'x' symbol on pop window
-        # popup_window = WebDriverWait(driver, 7).until(
-        #     EC.presence_of_element_located((By.XPATH, "//button[@class='popover-x-button-close icl-CloseButton']"))
-        # )
-
-        # activate_button = WebDriverWait(driver, 7).until(
-        #     EC.presence_of_element_located((By.ID, "popover-button"))
-        # )
-
-        # print('Printing Pop Up Elements')
-        # time.sleep(2)
-        # print(activate_button)
-        # print(activate_button)
-        # print('Pop Up Appeared')
-
-        # print('Closing Pop Up With Action Chain')
-
-        # popup_window.click()
-        
-
-        # #Moving Mouse
-        # #Create action chain object
-        # action = ActionChains(driver)
-        # #Moving Mouse Away From Pop Up
-        # action.move_to_element(popup_window)
-        # action.click(popup_window)
-        # action.move_to_element_with_offset(popup_window, 40, 50)
-        # print('Moiving Mouse?')
-        # action.click()
-        # action.perform()
-
-        # print('Pop Up Window Closed')
-
         print('Detecting Pop Up . . .')
-
-        #time.sleep(7)
-
-        print(driver.current_window_handle)
-        print(driver.window_handles)
 
 
         popup_window = WebDriverWait(driver, 7).until(
@@ -669,26 +633,12 @@ def next_page():
         print('This Was The Final Page')
 
 
-#Scrape - This Functionality Is To Get All Data Necessary From A City
-# def scrape():
-#     #Setting Pages Variable To Returned list Of Page Link Web Elements
-#     pages = get_pages()
+#Function To Fetch Specific Website Based on Dynamic City and Job Position
+def go(input_city, input_job):
+    print('Going to ' + input_job + ' in ' + input_city)
 
-#     for page in pages:
-
-#         #List of All Postings that have the salary listed - Emptied Every Loop
-#         job_list_with_salary_listed = []
-
-#         time.sleep(2)
-#         get_data()
-#         time.sleep(2)
-#         next_page()
-#         avoid_pop_up()
-
-
-
-def go(desired_city, desired_job):
-    print('Going to ' + desired_job + ' in ' + desired_city)
+    desired_job = input_job.strip().replace(' ', '%20')
+    desired_city = input_city.strip().replace(' ', '%20')
 
     try:
         driver.get("https://www.indeed.com/jobs?q=" + desired_job + "&l=" + desired_city)
@@ -696,24 +646,24 @@ def go(desired_city, desired_job):
         print('Getting Webpage for the ' + job_position + ' in ' + desired_city + ' was unsuccessful')
 
 #Making City and Job Input Dynamic
-city_one = input('What The First City Would You Like To Search? ').strip().replace(' ', '%20')
-city_two = input('What The Second City Would You Like To Search? ').strip().replace(' ', '%20')
-city_three = input('What The Third City Would You Like To Search? ').strip().replace(' ', '%20')
-job_position = input('What Position Are You Interested In? ').strip().replace(' ', '%20')
+city_one = input('What The First City Would You Like To Search? ')#.strip().replace(' ', '%20')
+city_two = input('What The Second City Would You Like To Search? ')#.strip().replace(' ', '%20')
+city_three = input('What The Third City Would You Like To Search? ')#.strip().replace(' ', '%20')
+job_position = input('What Position Are You Interested In? ')#.strip().replace(' ', '%20')
 
 #List Of Cities
 city_list = [city_one, city_two, city_three]
+#Checking Cities And Job Position
+print(city_list, job_position)
 
-#Going TO Desired Page (City and Job)
-#go(city, job_position)
-#print(driver.current_window_handle)
-
-
-#Testing Scrape Function
-# scrape()
 
 #For Loop Going Through Cities Input By User
 for city in city_list:
+
+    #Setting Searched City Variable To Current City
+    searched_city = city
+    searched_job = job_position
+    print('Searched Job Is Set To ' + searched_city + ' and Searched Job Is Set To ' + searched_job)
 
     #Go To Specific Search - City and Job Position
     go(city, job_position)
@@ -738,45 +688,10 @@ for city in city_list:
 
 
 
-
-
-#Setting Pages Variable To Returned list Of Page Link Web Elements
-# pages = get_pages()
-
-# for page in pages:
-
-#     #List of All Postings that have the salary listed - Emptied Every Loop
-#     job_list_with_salary_listed = []
-
-#     time.sleep(2)
-#     get_data()
-#     time.sleep(2)
-#     next_page()
-#     avoid_pop_up()
-
-
 #Putting Job Postings List Into Data Frame
 df = pd.DataFrame(job_postings)
 print(df)
 
-
-
-
-#Do a xpath with class and contains 'Salary' as text
-#*//div[contains(@class,'salary')]
-
-#Try Block - Getting all relevant data and storing it in a job dictionary then appending it to the job postings list
-# try:
-#     #print('Getting By Xpath Contains Text .... ')
-
-#     #This Was A Check To See How To Access The Salary Information
-#     # salary_test_one = WebDriverWait(job_list_with_salary_listed[2], 5).until(
-#     #     EC.presence_of_element_located((By.XPATH, "*//div[contains(@class,'salary')]"))
-#     # )
-
-#     get_data()
-# except:
-#     print('Xpath Text Contains Failed')
 
 
 
