@@ -59,7 +59,7 @@ _*_Easily Uploaded Into Google Sheets_*_
 <img width="1623" alt="Screen Shot 2022-07-25 at 10 02 47 AM" src="https://user-images.githubusercontent.com/108707233/180874439-ba7035b2-cd76-44fc-9621-db20f8fa6741.png">
 
   # Foot Notes
-  The Data is Collected From 'Indeed.com' Which Is An Online Job Board Similar To ZipRecruiter, Indeed, and 
+  The Data is Collected From 'Indeed.com' Which Is An Online Job Board Similar To ZipRecruiter, SimplyHired, and 
   FlexJobs.
   
   To Collect the Data Im Using Python and Selenium on a Mac (But This Will Also Work On A Windows Operating System)
