@@ -58,10 +58,13 @@ _*_Easily Uploaded Into Google Sheets_*_
 
 <img width="1623" alt="Screen Shot 2022-07-25 at 10 02 47 AM" src="https://user-images.githubusercontent.com/108707233/180874439-ba7035b2-cd76-44fc-9621-db20f8fa6741.png">
 
+  # Foot Notes
+  The Data is Collected From 'Indeed.com' Which Is An Online Job Board Similar To ZipRecruiter, Indeed, and FlexJobs.
   
-  The Data is Collected From 'Indeed.com' which is an online job board similar to ZipRecruiter, Indeed, and FlexJobs.
   To Collect the Data Im Using Python and Selenium on a Mac (But This Will Also Work On A Windows Operating System)
-  Once the Code is Ran, The 'Input' Prompt Will Ask The User For The Desired Position and Which Cities They Are Interested In To Compare
+  
+  Once Program is Ran, The 'Input' Prompt Will Ask The User For The Desired Position and Which Cities They Are Interested In Comparing
+  
   Selenium Will Search The Desired Position in The Desired Cities, and Only Pull Data From The Job Listings That Have Salary Data Listed
   
   
