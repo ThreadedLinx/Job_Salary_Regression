@@ -1,5 +1,6 @@
 from cgitb import html
 import string
+import openpyxl
 from turtle import pos
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -663,7 +664,7 @@ for city in city_list:
     #Setting Searched City Variable To Current City
     searched_city = city
     searched_job = job_position
-    print('Searched Job Is Set To ' + searched_city + ' and Searched Job Is Set To ' + searched_job)
+    print('Search City Is Set To ' + searched_city + ' and Search Job Is Set To ' + searched_job)
 
     #Go To Specific Search - City and Job Position
     go(city, job_position)
@@ -692,7 +693,16 @@ for city in city_list:
 df = pd.DataFrame(job_postings)
 print(df)
 
+#Saving DataFrame To A CSV
+print('Saving to CSV . . .')
+filename = job_position.strip().title().replace(' ', '%20') + '_in_' + city_one.strip().title().replace(' ', '%20') + '_' + city_two.strip().title().replace(' ', '%20') + '_' + city_three.strip().title().replace(' ', '%20')
+df.to_csv(r'/Users/nay/Desktop/Development/Data_Analyst/Indeed_Salary_By_Location/Saved_Searches_CSV/' + filename + '.csv', index=False)
 
+#Saving DataFrame As An Excel Spreadsheet
+print('Saving as Excel File . . .')
+df.to_excel(r'/Users/nay/Desktop/Development/Data_Analyst/Indeed_Salary_By_Location/Saved_Searches_Excel/' + filename + '.xlsx', index=False)
+
+print('Data Succesfully Saved')
 
 
 
